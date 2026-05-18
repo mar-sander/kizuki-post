@@ -270,8 +270,6 @@ iframe[name="hiddenFrame"]{
 
       <div class="actions">
         <button id="submitBtn" type="submit">POST</button>
-        <button class="secondary" id="clearBtn" type="button">CLEAR</button>
-        <a class="link-button secondary" id="sheetLink" href="#" target="_blank" rel="noopener">SHEET</a>
       </div>
     </form>
 
@@ -306,22 +304,19 @@ iframe[name="hiddenFrame"]{
 <iframe name="hiddenFrame" id="hiddenFrame"></iframe>
 
 <script>
-// ====== ここだけ自分のURLに置き換えてください ======
+// ====== Apps ScriptのWebアプリURL ======
 const GAS_ENDPOINT = "https://script.google.com/a/macros/g.nagano-c.ed.jp/s/AKfycbzDR6ZrAaPNJ1KKpY28uCrvJhgKHdKIUq5-9MKkYjMkxtp0mk59f-q1HZcegho4muSV_A/exec";
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/1q4iYyreP7Yq2oY2iSpW2ld6aS9u0E1VONGI46ziL5tY/edit?usp=sharing";
 // ==================================================
 
 const form = document.getElementById("postForm");
 const teamSelect = document.getElementById("teamSelect");
 const memoInput = document.getElementById("memoInput");
 const submitBtn = document.getElementById("submitBtn");
-const clearBtn = document.getElementById("clearBtn");
 const statusBox = document.getElementById("statusBox");
 const selectedTeam = document.getElementById("selectedTeam");
 const memoLength = document.getElementById("memoLength");
 const lastPost = document.getElementById("lastPost");
 const hiddenFrame = document.getElementById("hiddenFrame");
-const sheetLink = document.getElementById("sheetLink");
 
 let isSubmitting = false;
 
@@ -348,14 +343,6 @@ function initialize(){
     lastPost.textContent = savedLastPost;
   }
 
-  if(SHEET_URL && !SHEET_URL.includes("YOUR_SPREADSHEET_URL")){
-    sheetLink.href = SHEET_URL;
-  }else{
-    sheetLink.addEventListener("click", (event) => {
-      event.preventDefault();
-      setStatus("SHEET_URLがまだ設定されていません。", "error");
-    });
-  }
 
   updateStatusView();
 }
@@ -367,12 +354,6 @@ teamSelect.addEventListener("change", () => {
 
 memoInput.addEventListener("input", updateStatusView);
 
-clearBtn.addEventListener("click", () => {
-  memoInput.value = "";
-  updateStatusView();
-  setStatus("メモ欄を空にしました。", "ready");
-  memoInput.focus();
-});
 
 form.addEventListener("submit", (event) => {
   if(!GAS_ENDPOINT || GAS_ENDPOINT.includes("YOUR_APPS_SCRIPT_WEB_APP_URL")){
@@ -413,7 +394,7 @@ hiddenFrame.addEventListener("load", () => {
   updateStatusView();
   submitBtn.disabled = false;
   isSubmitting = false;
-  setStatus("投函しました。必要ならSHEETから確認できます。", "success");
+  setStatus("投函しました。", "success");
   memoInput.focus();
 });
 

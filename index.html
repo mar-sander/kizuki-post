@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KizKi Post｜気づきを築く共有メモ</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap');
+
+:root{
+  --bg:#cdc8b2;
+  --paper:#f4f1ea;
+  --ink:#514f46;
+  --sub:#77746b;
+  --line:#b9b4aa;
+  --dark:#514f46;
+  --accent:#111;
+  --success:#4d7b61;
+  --warn:#cb6a52;
+  --warn-bg:#e3decaeb;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  padding:24px;
+  font-family:"Inter", sans-serif;
+  background:var(--bg);
+  background-size:5px 5px;
+  color:var(--ink);
+  letter-spacing:0.08em;
+  line-height:1.7;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(rgba(80,76,66,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(80,76,66,.05) 1px, transparent 1px);
+  background-size:5px 5px;
+  z-index:9999;
+}
+
+.container{
+  max-width:760px;
+  margin:0 auto;
+}
+
+header{
+  margin-bottom:24px;
+  border-bottom:2px solid var(--dark);
+  padding-bottom:16px;
+}
+
+h1{
+  margin:0;
+  font-size:40px;
+  line-height:1;
+  letter-spacing:0.12em;
+  font-weight:400;
+  text-transform:none;
+  text-shadow:.3rem .3rem 0 rgb(77 73 62 / 22%);
+}
+
+.logo-i{
+  display:inline-block;
+  transform:translateY(-1px);
+}
+
+.subtitle{
+  margin-top:10px;
+  color:var(--sub);
+  font-size:13px;
+  letter-spacing:.04em;
+}
+
+.card{
+  background:#dad4bc;
+  box-shadow:6px 6px 0 rgba(47,46,42,.12);
+  padding:18px;
+  margin:20px 0 25px 0;
+}
+
+h2{
+  margin:-18px -18px 18px -18px;
+  font-size:20px;
+  letter-spacing:0.1em;
+  line-height:1.0;
+  background-color:#514f46;
+  padding:11px 10px 10px 15px;
+  color:#dad4bc;
+  font-weight:300;
+}
+
+label{
+  display:block;
+  margin:14px 0 6px;
+  color:var(--ink);
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.12em;
+}
+
+select,
+textarea{
+  width:100%;
+  border:1px solid #0000000f;
+  background:#00000014;
+  color:var(--ink);
+  padding:14px;
+  font-family:"Inter", sans-serif;
+  font-size:16px;
+  line-height:1.8;
+  outline:none;
+}
+
+select:focus,
+textarea:focus{
+  border-color:#e3decb;
+  box-shadow:0 0 0 3px rgba(47,46,42,.22);
+}
+
+textarea{
+  min-height:220px;
+  resize:vertical;
+  font-family:"Inter", "Fira Code", monospace, sans-serif;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:12px;
+}
+
+button,
+.link-button{
+  border:0;
+  background:var(--dark);
+  color:#dad4bc;
+  padding:9px 16px;
+  font-family:inherit;
+  font-size:15px;
+  letter-spacing:0.1em;
+  cursor:pointer;
+  transition:.15s;
+  text-decoration:none;
+  display:inline-block;
+}
+
+button:hover,
+.link-button:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.08);
+}
+
+button.secondary,
+.link-button.secondary{
+  background:#b4b09c;
+  color:var(--dark);
+}
+
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.note{
+  color:var(--sub);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.status-box{
+  border:1px solid #0000000f;
+  background:#00000014;
+  padding:12px 14px;
+  margin-top:14px;
+  font-size:14px;
+}
+
+.status-box.ready{ color:var(--sub); }
+.status-box.sending{ color:var(--ink); }
+.status-box.success{ color:var(--success); font-weight:700; }
+.status-box.error{ color:var(--warn); font-weight:700; }
+
+.meta{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:10px;
+  margin-top:12px;
+}
+
+.meta-box{
+  border:1px solid #0000000f;
+  background:#00000014;
+  padding:10px;
+}
+
+.meta-label{
+  color:var(--sub);
+  font-size:12px;
+  letter-spacing:.08em;
+}
+
+.meta-value{
+  font-size:20px;
+  font-weight:400;
+  line-height:1.3;
+}
+
+footer{
+  margin-top:32px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+  color:var(--sub);
+  font-size:13px;
+  text-align:center;
+}
+
+iframe[name="hiddenFrame"]{
+  display:none;
+}
+
+@media(max-width:640px){
+  body{ padding:14px; }
+  h1{ font-size:34px; letter-spacing:0.08em; }
+  h2{ margin:-14px -14px 14px -14px; }
+  .card{ padding:14px; }
+  textarea{ min-height:260px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <header>
+    <h1>K<span class="logo-i">i</span>zK<span class="logo-i">i</span> Post</h1>
+    <div class="subtitle">気づきを築く共有メモ</div>
+  </header>
+
+  <section class="card">
+    <h2>POST</h2>
+
+    <form id="postForm" method="POST" target="hiddenFrame">
+      <label for="teamSelect">TEAM</label>
+      <select id="teamSelect" name="team" required>
+        <option value="">チームを選択</option>
+        <option value="C-01">C-01</option>
+        <option value="C-02">C-02</option>
+        <option value="C-03">C-03</option>
+        <option value="C-04">C-04</option>
+        <option value="C-05">C-05</option>
+        <option value="C-06">C-06</option>
+        <option value="C-07">C-07</option>
+        <option value="C-08">C-08</option>
+      </select>
+
+      <label for="memoInput">MEMO</label>
+      <textarea id="memoInput" name="memo" maxlength="1000" placeholder="思いついたこと、気になったこと、調べて分かったことを、忘れる前にここへ。" required></textarea>
+
+      <div class="actions">
+        <button id="submitBtn" type="submit">POST</button>
+        <button class="secondary" id="clearBtn" type="button">CLEAR</button>
+        <a class="link-button secondary" id="sheetLink" href="#" target="_blank" rel="noopener">SHEET</a>
+      </div>
+    </form>
+
+    <div id="statusBox" class="status-box ready">チームを選び、メモを書いてPOSTしてください。</div>
+
+    <p class="note">※ これは完成した文章を書く場所ではありません。思いついたことを、とりあえず投函する場所です。</p>
+  </section>
+
+  <section class="card">
+    <h2>STATUS</h2>
+    <div class="meta">
+      <div class="meta-box">
+        <div class="meta-label">SELECTED TEAM</div>
+        <div class="meta-value" id="selectedTeam">---</div>
+      </div>
+      <div class="meta-box">
+        <div class="meta-label">MEMO LENGTH</div>
+        <div class="meta-value"><span id="memoLength">0</span> / 1000</div>
+      </div>
+      <div class="meta-box">
+        <div class="meta-label">LAST POST</div>
+        <div class="meta-value" id="lastPost">---</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Copyright © M.M. All Rights Reserved.
+  </footer>
+</div>
+
+<iframe name="hiddenFrame" id="hiddenFrame"></iframe>
+
+<script>
+// ====== ここだけ自分のURLに置き換えてください ======
+const GAS_ENDPOINT = "https://script.google.com/a/macros/g.nagano-c.ed.jp/s/AKfycbzDR6ZrAaPNJ1KKpY28uCrvJhgKHdKIUq5-9MKkYjMkxtp0mk59f-q1HZcegho4muSV_A/exec";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1q4iYyreP7Yq2oY2iSpW2ld6aS9u0E1VONGI46ziL5tY/edit?usp=sharing";
+// ==================================================
+
+const form = document.getElementById("postForm");
+const teamSelect = document.getElementById("teamSelect");
+const memoInput = document.getElementById("memoInput");
+const submitBtn = document.getElementById("submitBtn");
+const clearBtn = document.getElementById("clearBtn");
+const statusBox = document.getElementById("statusBox");
+const selectedTeam = document.getElementById("selectedTeam");
+const memoLength = document.getElementById("memoLength");
+const lastPost = document.getElementById("lastPost");
+const hiddenFrame = document.getElementById("hiddenFrame");
+const sheetLink = document.getElementById("sheetLink");
+
+let isSubmitting = false;
+
+function setStatus(message, type = "ready"){
+  statusBox.textContent = message;
+  statusBox.className = `status-box ${type}`;
+}
+
+function updateStatusView(){
+  selectedTeam.textContent = teamSelect.value || "---";
+  memoLength.textContent = memoInput.value.length;
+}
+
+function initialize(){
+  form.action = GAS_ENDPOINT;
+
+  const savedTeam = localStorage.getItem("kizkiPostTeam");
+  if(savedTeam){
+    teamSelect.value = savedTeam;
+  }
+
+  const savedLastPost = localStorage.getItem("kizkiPostLastPost");
+  if(savedLastPost){
+    lastPost.textContent = savedLastPost;
+  }
+
+  if(SHEET_URL && !SHEET_URL.includes("YOUR_SPREADSHEET_URL")){
+    sheetLink.href = SHEET_URL;
+  }else{
+    sheetLink.addEventListener("click", (event) => {
+      event.preventDefault();
+      setStatus("SHEET_URLがまだ設定されていません。", "error");
+    });
+  }
+
+  updateStatusView();
+}
+
+teamSelect.addEventListener("change", () => {
+  localStorage.setItem("kizkiPostTeam", teamSelect.value);
+  updateStatusView();
+});
+
+memoInput.addEventListener("input", updateStatusView);
+
+clearBtn.addEventListener("click", () => {
+  memoInput.value = "";
+  updateStatusView();
+  setStatus("メモ欄を空にしました。", "ready");
+  memoInput.focus();
+});
+
+form.addEventListener("submit", (event) => {
+  if(!GAS_ENDPOINT || GAS_ENDPOINT.includes("YOUR_APPS_SCRIPT_WEB_APP_URL")){
+    event.preventDefault();
+    setStatus("GAS_ENDPOINTがまだ設定されていません。", "error");
+    return;
+  }
+
+  if(!teamSelect.value){
+    event.preventDefault();
+    setStatus("チームを選択してください。", "error");
+    teamSelect.focus();
+    return;
+  }
+
+  if(!memoInput.value.trim()){
+    event.preventDefault();
+    setStatus("メモを入力してください。", "error");
+    memoInput.focus();
+    return;
+  }
+
+  localStorage.setItem("kizkiPostTeam", teamSelect.value);
+  submitBtn.disabled = true;
+  isSubmitting = true;
+  setStatus("投函しています……", "sending");
+});
+
+hiddenFrame.addEventListener("load", () => {
+  if(!isSubmitting) return;
+
+  const now = new Date();
+  const timeText = `${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+  localStorage.setItem("kizkiPostLastPost", timeText);
+  lastPost.textContent = timeText;
+
+  memoInput.value = "";
+  updateStatusView();
+  submitBtn.disabled = false;
+  isSubmitting = false;
+  setStatus("投函しました。必要ならSHEETから確認できます。", "success");
+  memoInput.focus();
+});
+
+initialize();
+</script>
+</body>
+</html>

@@ -102,9 +102,9 @@ h2{
 
 label{
   display:block;
-  margin:14px 0 6px;
-  color:var(--ink);
-  font-size:13px;
+  margin:14px 0 4px;
+  color:var(--sub);
+  font-size:12px;
   font-weight:400;
   letter-spacing:.12em;
 }
@@ -240,9 +240,10 @@ button:disabled{
 
 .team-memo-panel{
   margin-top:12px;
-  padding:12px;
-  border:1px solid #00000012;
-  background:#0000000b;
+  margin-bottom: 6px;
+  /* padding:12px; */
+  /* border:1px solid #00000012; */
+  /* background:#0000000b; */
 }
 
 .memo-list-head{
@@ -276,8 +277,8 @@ button:disabled{
 .memo-card{
   margin-top:10px;
   padding:10px 12px;
-  background:rgba(244,241,234,.42);
-  border-left:3px solid rgba(81,79,70,.32);
+  background:#0000000b;
+  border-left:2px solid #514f4545;
 }
 
 .memo-card-time{
@@ -323,7 +324,7 @@ button:disabled{
 
 .memo-tag{
   color:var(--sub);
-  background:#0000000d;
+  background:#0000000f;
   padding:2px 6px;
   font-size:10px;
   line-height:1.5;
@@ -454,14 +455,14 @@ iframe[name="hiddenFrame"]{
 
   <section class="card memo-list-card">
     <h2>MEMO LIST</h2>
-    <p class="note memo-list-note">選択中のチームに投函されたメモを、必要なときだけ見返せます。</p>
+    <p class="note memo-list-note">選択中のチームに投函されたメモを見返せます。</p>
 
     <div class="team-memos">
       <button id="memoToggle" class="memo-toggle" type="button" aria-expanded="false">▼ 自チームの投函メモを見る</button>
       <div id="teamMemoPanel" class="team-memo-panel" hidden>
         <div class="memo-list-head">
-          <div class="memo-list-title">TEAM MEMO LIST</div>
-          <button id="reloadMemos" class="memo-reload" type="button">更新</button>
+          <div class="memo-list-title">PAST POSTS</div>
+          <button id="reloadMemos" class="memo-reload" type="button">UPDATE</button>
         </div>
         <div id="memoList" class="memo-list">
           <p class="memo-list-message">開いたときに、選択中のチームの投函メモを読み込みます。</p>

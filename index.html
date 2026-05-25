@@ -64,8 +64,8 @@ h1{
   margin:0;
   font-size:40px;
   line-height:1;
-  letter-spacing:0.12em;
-  font-weight:300;
+  letter-spacing:0.2em;
+  font-weight:400;
   text-transform:none;
   text-shadow:.3rem .3rem 0 rgb(77 73 62 / 22%);
 }
@@ -385,9 +385,12 @@ iframe[name="hiddenFrame"]{
   display:none;
 }
 
+
+
+
 @media(max-width:640px){
   body{ padding:14px;   padding-top: 28px; }
-  h1{ font-size:34px; letter-spacing:0.08em; }
+  h1{ font-size:34px; letter-spacing:0.18em; }
   h2{ margin:-14px -14px 14px -14px; }
   .card{ padding:14px; }
   textarea{ min-height:260px; }
@@ -398,7 +401,7 @@ iframe[name="hiddenFrame"]{
 <body>
 <div class="container">
   <header>
-    <h1>K<span class="logo-i">i</span>zK<span class="logo-i">i</span> Post</h1>
+    <h1 id="string">KizKi Post</h1>
     <div class="subtitle">気づきを投函、チームで共有。研究を築きあげるメモツール</div>
   </header>
 
@@ -479,6 +482,73 @@ iframe[name="hiddenFrame"]{
 <iframe name="hiddenFrame" id="hiddenFrame"></iframe>
 
 <script>
+
+class NieRTyping {
+  constructor(string) {
+    this.string = string;
+  }
+
+  call() {
+    const result = [];
+    for (let i = 0; i <= this.string.length - 1; i += 1) {
+      const char = this.string[i];
+      const current_string = this.string.slice(0, i);
+      const max_type = 3;
+      let typed_times = 0;
+      let is_equal = true;
+
+      while (is_equal) {
+
+        const random_char = this.get_random();
+        const typed = current_string + random_char;
+        result.push(typed);
+
+        typed_times += 1;
+
+        if (random_char === char) { is_equal = false; }
+        if (typed_times === max_type) {
+          is_equal = false;
+          result.push(current_string + char);
+        }
+
+      }
+    }
+    return result;
+  }
+
+  get_random() {
+    const { length } = this.string;
+    const index = Math.floor(Math.random() * length);
+    return this.string[index];
+  }
+}
+
+function run() {
+  const aodnawg = document.getElementById('string');
+  const { innerText } = aodnawg;
+  const nier_type = new NieRTyping(innerText);
+  const nier_types = nier_type.call();
+
+  let delay = 0;
+  for (let nt of nier_types) {
+    setTimeout(() => {
+      document.getElementById('string').innerText = nt;
+    }, delay)
+    delay += 40;
+  }
+}
+
+window.onload = () => {
+  run();
+
+  const trigger =document.getElementById('trigger');
+  trigger.addEventListener('click', () => {
+    run();
+  });
+};
+
+
+
 // ====== Apps ScriptのWebアプリURL ======
 const GAS_ENDPOINT = "https://script.google.com/a/macros/g.nagano-c.ed.jp/s/AKfycbzDR6ZrAaPNJ1KKpY28uCrvJhgKHdKIUq5-9MKkYjMkxtp0mk59f-q1HZcegho4muSV_A/exec";
 // ==================================================

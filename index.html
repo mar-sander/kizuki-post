@@ -235,13 +235,12 @@ button:disabled{
 }
 
 .memo-toggle:hover{
-  background:#0000000d;
+  background:#0000000f;
 }
 
 .team-memo-panel{
   margin-top:12px;
-  margin-bottom: 6px;
-  /* padding:12px; */
+  padding:12px;
   /* border:1px solid #00000012; */
   /* background:#0000000b; */
 }
@@ -372,6 +371,32 @@ button:disabled{
   margin-top:12px;
 }
 
+
+.sheet-link-row{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:8px;
+}
+
+.sheet-mini-link{
+  display:inline-block;
+  padding:4px 8px;
+  font-size:11px;
+  line-height:1.5;
+  letter-spacing:.08em;
+  color:var(--sub);
+  border:1px solid #00000018;
+  background:transparent;
+  text-decoration:none;
+  transition:.15s;
+}
+
+.sheet-mini-link:hover{
+  background:#0000000d;
+  color:var(--ink);
+  transform:translateY(-1px);
+}
+
 footer{
   margin-top:32px;
   padding-top:16px;
@@ -384,9 +409,6 @@ footer{
 iframe[name="hiddenFrame"]{
   display:none;
 }
-
-
-
 
 @media(max-width:640px){
   body{ padding:14px;   padding-top: 28px; }
@@ -472,6 +494,10 @@ iframe[name="hiddenFrame"]{
         </div>
       </div>
     </div>
+
+    <div class="sheet-link-row">
+      <a class="sheet-mini-link" href="https://docs.google.com/spreadsheets/d/1q4iYyreP7Yq2oY2iSpW2ld6aS9u0E1VONGI46ziL5tY/edit?usp=sharing" target="_blank" rel="noopener noreferrer">詳細をシートで見る↗</a>
+    </div>
   </section>
 
   <footer>
@@ -498,7 +524,6 @@ class NieRTyping {
       let is_equal = true;
 
       while (is_equal) {
-
         const random_char = this.get_random();
         const typed = current_string + random_char;
         result.push(typed);
@@ -510,7 +535,6 @@ class NieRTyping {
           is_equal = false;
           result.push(current_string + char);
         }
-
       }
     }
     return result;
@@ -524,30 +548,29 @@ class NieRTyping {
 }
 
 function run() {
-  const aodnawg = document.getElementById('string');
-  const { innerText } = aodnawg;
+  const titleElement = document.getElementById('string');
+  if (!titleElement) { return; }
+
+  const { innerText } = titleElement;
   const nier_type = new NieRTyping(innerText);
   const nier_types = nier_type.call();
 
   let delay = 0;
   for (let nt of nier_types) {
     setTimeout(() => {
-      document.getElementById('string').innerText = nt;
-    }, delay)
+      titleElement.innerText = nt;
+    }, delay);
     delay += 40;
   }
 }
 
-window.onload = () => {
+window.addEventListener('load', () => {
   run();
-
-  const trigger =document.getElementById('trigger');
-  trigger.addEventListener('click', () => {
-    run();
-  });
-};
-
-
+  const trigger = document.getElementById('trigger');
+  if (trigger) {
+    trigger.addEventListener('click', run);
+  }
+});
 
 // ====== Apps ScriptのWebアプリURL ======
 const GAS_ENDPOINT = "https://script.google.com/a/macros/g.nagano-c.ed.jp/s/AKfycbzDR6ZrAaPNJ1KKpY28uCrvJhgKHdKIUq5-9MKkYjMkxtp0mk59f-q1HZcegho4muSV_A/exec";
